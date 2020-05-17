@@ -27,14 +27,102 @@ public class ChessBoard implements Listenable<GameListener> {
         }
     }
 
-    public void placeInitialPieces() {
+    public void placeInitialPieces2() {
         // TODO: This is only a demo implementation
         grid[0][0].setPiece(new ChessPiece(Color.RED));
         grid[0][1].setPiece(new ChessPiece(Color.RED));
+        grid[0][2].setPiece(new ChessPiece(Color.RED));
+        grid[0][3].setPiece(new ChessPiece(Color.RED));
+        grid[0][4].setPiece(new ChessPiece(Color.RED));
         grid[1][0].setPiece(new ChessPiece(Color.RED));
+        grid[1][1].setPiece(new ChessPiece(Color.RED));
+        grid[1][2].setPiece(new ChessPiece(Color.RED));
+        grid[1][3].setPiece(new ChessPiece(Color.RED));
+        grid[1][4].setPiece(new ChessPiece(Color.RED));
+        grid[2][0].setPiece(new ChessPiece(Color.RED));
+        grid[2][1].setPiece(new ChessPiece(Color.RED));
+        grid[2][2].setPiece(new ChessPiece(Color.RED));
+        grid[2][3].setPiece(new ChessPiece(Color.RED));
+        grid[3][0].setPiece(new ChessPiece(Color.RED));
+        grid[3][1].setPiece(new ChessPiece(Color.RED));
+        grid[3][2].setPiece(new ChessPiece(Color.RED));
+        grid[4][0].setPiece(new ChessPiece(Color.RED));
+        grid[4][1].setPiece(new ChessPiece(Color.RED));
         grid[dimension - 1][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
         grid[dimension - 1][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 5].setPiece(new ChessPiece(Color.GREEN));
         grid[dimension - 2][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 5].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 4][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 4][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 4][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 5][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 5][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        listenerList.forEach(listener -> listener.onChessBoardReload(this));
+    }
+
+    public void placeInitialPieces4() {
+        grid[0][0].setPiece(new ChessPiece(Color.RED));
+        grid[0][1].setPiece(new ChessPiece(Color.RED));
+        grid[0][2].setPiece(new ChessPiece(Color.RED));
+        grid[0][3].setPiece(new ChessPiece(Color.RED));
+        grid[1][0].setPiece(new ChessPiece(Color.RED));
+        grid[1][1].setPiece(new ChessPiece(Color.RED));
+        grid[1][2].setPiece(new ChessPiece(Color.RED));
+        grid[1][3].setPiece(new ChessPiece(Color.RED));
+        grid[2][0].setPiece(new ChessPiece(Color.RED));
+        grid[2][1].setPiece(new ChessPiece(Color.RED));
+        grid[2][2].setPiece(new ChessPiece(Color.RED));
+        grid[3][0].setPiece(new ChessPiece(Color.RED));
+        grid[3][1].setPiece(new ChessPiece(Color.RED));
+        grid[dimension - 1][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 1][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 2][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 3][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 4][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+        grid[dimension - 4][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+        grid[0][dimension - 1].setPiece(new ChessPiece(Color.YELLOW));
+        grid[0][dimension - 2].setPiece(new ChessPiece(Color.YELLOW));
+        grid[0][dimension - 3].setPiece(new ChessPiece(Color.YELLOW));
+        grid[0][dimension - 4].setPiece(new ChessPiece(Color.YELLOW));
+        grid[1][dimension - 1].setPiece(new ChessPiece(Color.YELLOW));
+        grid[1][dimension - 2].setPiece(new ChessPiece(Color.YELLOW));
+        grid[1][dimension - 3].setPiece(new ChessPiece(Color.YELLOW));
+        grid[1][dimension - 4].setPiece(new ChessPiece(Color.YELLOW));
+        grid[2][dimension - 1].setPiece(new ChessPiece(Color.YELLOW));
+        grid[2][dimension - 2].setPiece(new ChessPiece(Color.YELLOW));
+        grid[2][dimension - 3].setPiece(new ChessPiece(Color.YELLOW));
+        grid[3][dimension - 1].setPiece(new ChessPiece(Color.YELLOW));
+        grid[3][dimension - 2].setPiece(new ChessPiece(Color.YELLOW));
+        grid[dimension - 1][0].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 1][1].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 1][2].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 1][3].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 2][0].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 2][1].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 2][2].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 2][3].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 3][0].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 3][1].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 3][2].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 4][0].setPiece(new ChessPiece(Color.BLUE));
+        grid[dimension - 4][1].setPiece(new ChessPiece(Color.BLUE));
         listenerList.forEach(listener -> listener.onChessBoardReload(this));
     }
 
