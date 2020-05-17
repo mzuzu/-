@@ -43,8 +43,24 @@ public class GameController implements InputListener {
         return selectedLocation != null;
     }
 
-    public Color nextPlayer() {
+    public Color nextPlayer2() {
         return currentPlayer = currentPlayer == Color.RED ? Color.GREEN : Color.RED;
+    }
+
+    public Color nextPlayer4() {
+        if (currentPlayer == Color.RED) {
+            return currentPlayer = Color.YELLOW;
+        }
+        if (currentPlayer == Color.YELLOW) {
+            return currentPlayer = Color.GREEN;
+        }
+        if (currentPlayer == Color.GREEN) {
+            return currentPlayer = Color.BLUE;
+        }
+        if (currentPlayer == Color.BLUE) {
+            return currentPlayer = Color.RED;
+        }
+        return null;
     }
 
     @Override
@@ -52,7 +68,7 @@ public class GameController implements InputListener {
         if (hasSelectedLocation() && model.isValidMove(getSelectedLocation(), location)) {
             model.moveChessPiece(selectedLocation, location);
             resetSelectedLocation();
-            nextPlayer();
+            nextPlayer4();
         }
     }
 
