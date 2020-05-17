@@ -24,7 +24,7 @@ public class GameController implements InputListener {
         this.currentPlayer = Color.RED;
         view.registerListener(this);
         model.registerListener(view);
-        model.placeInitialPieces();
+        model.placeInitialPieces2();
     }
 
     public ChessBoardLocation getSelectedLocation() {
