@@ -16,15 +16,18 @@ public class GameController implements InputListener {
 
     private ChessBoardLocation selectedLocation;
     private Color currentPlayer;
+    public boolean moShi; //模式 true is two players, false is four players.
 
-    public GameController(ChessBoardComponent chessBoardComponent, ChessBoard chessBoard) {
+    public GameController(ChessBoardComponent chessBoardComponent, ChessBoard chessBoard, boolean selection) {
+        this.moShi = selection;
+        chessBoard.setMoShi(selection);
         this.view = chessBoardComponent;
         this.model = chessBoard;
 
         this.currentPlayer = Color.RED;
         view.registerListener(this);
         model.registerListener(view);
-        model.placeInitialPieces2();
+        model.placeInitialPieces();
     }
 
     public ChessBoardLocation getSelectedLocation() {
@@ -43,24 +46,31 @@ public class GameController implements InputListener {
         return selectedLocation != null;
     }
 
-    public Color nextPlayer2() {
-        return currentPlayer = currentPlayer == Color.RED ? Color.GREEN : Color.RED;
+    public void SelectMoShi(boolean selection) {
+        this.moShi = selection;
     }
 
-    public Color nextPlayer4() {
-        if (currentPlayer == Color.RED) {
-            return currentPlayer = Color.YELLOW;
+    public void nextPlayer(boolean MoShi) {
+        if (MoShi) {
+            currentPlayer = currentPlayer == Color.RED ? Color.GREEN : Color.RED;
         }
-        if (currentPlayer == Color.YELLOW) {
-            return currentPlayer = Color.GREEN;
+        else {
+            if (currentPlayer == Color.RED) {
+                currentPlayer = Color.YELLOW;
+                return;
+            }
+            if (currentPlayer == Color.YELLOW) {
+                currentPlayer = Color.GREEN;
+                return;
+            }
+            if (currentPlayer == Color.GREEN) {
+                currentPlayer = Color.BLUE;
+                return;
+            }
+            if (currentPlayer == Color.BLUE) {
+                currentPlayer = Color.RED;
+            }
         }
-        if (currentPlayer == Color.GREEN) {
-            return currentPlayer = Color.BLUE;
-        }
-        if (currentPlayer == Color.BLUE) {
-            return currentPlayer = Color.RED;
-        }
-        return null;
     }
 
     @Override
@@ -68,7 +78,7 @@ public class GameController implements InputListener {
         if (hasSelectedLocation() && model.isValidMove(getSelectedLocation(), location)) {
             model.moveChessPiece(selectedLocation, location);
             resetSelectedLocation();
-            nextPlayer4();
+            nextPlayer(moShi);
         }
     }
 
