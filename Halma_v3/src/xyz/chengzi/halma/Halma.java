@@ -12,7 +12,7 @@ public class Halma {
         SwingUtilities.invokeLater(() -> {
             ChessBoardComponent chessBoardComponent = new ChessBoardComponent(760, 19);
             ChessBoard chessBoard = new ChessBoard(19);
-            GameController controller = new GameController(chessBoardComponent, chessBoard);
+            GameController controller = new GameController(chessBoardComponent, chessBoard， true);
 
             GameFrame mainFrame = new GameFrame();
             mainFrame.add(chessBoardComponent);
