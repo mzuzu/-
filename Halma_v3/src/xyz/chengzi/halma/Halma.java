@@ -8,15 +8,23 @@ import xyz.chengzi.halma.view.GameFrame;
 import javax.swing.*;
 
 public class Halma {
-    public static void main(String[] args) {
+    public static void start(boolean selection) {
         SwingUtilities.invokeLater(() -> {
             ChessBoardComponent chessBoardComponent = new ChessBoardComponent(760, 19);
             ChessBoard chessBoard = new ChessBoard(19);
-            GameController controller = new GameController(chessBoardComponent, chessBoard， true);
+            GameController controller = new GameController(chessBoardComponent, chessBoard, selection);
 
             GameFrame mainFrame = new GameFrame();
             mainFrame.add(chessBoardComponent);
             mainFrame.setVisible(true);
         });
+    }
+
+    public void save() {
+
+    }
+
+    public void load() {
+
     }
 }
