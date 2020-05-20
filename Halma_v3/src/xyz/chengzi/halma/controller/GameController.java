@@ -24,10 +24,31 @@ public class GameController implements InputListener {
         this.view = chessBoardComponent;
         this.model = chessBoard;
 
-        this.currentPlayer = Color.RED;
+        this.currentPlayer = FirstPlayer();
         view.registerListener(this);
         model.registerListener(view);
         model.placeInitialPieces();
+    }
+    
+    public Color FirstPlayer(){
+        if (moShi){
+            int a=(int)(Math.random()*2);
+            if (a==0)
+                return Color.RED;
+            else
+                return Color.GREEN;
+        }
+        else {
+            int a=(int)(Math.random()*4);
+            if (a==0)
+                return Color.RED;
+            else if (a==1)
+                return Color.YELLOW;
+            else if (a==2)
+                return Color.GREEN;
+            else
+                return Color.BLUE;
+        }
     }
 
     public ChessBoardLocation getSelectedLocation() {
@@ -77,7 +98,12 @@ public class GameController implements InputListener {
     public void onPlayerClickSquare(ChessBoardLocation location, SquareComponent component) {
         if (hasSelectedLocation() && model.isValidMove(getSelectedLocation(), location)) {
             model.moveChessPiece(selectedLocation, location);
-            resetSelectedLocation();
+            resetSelectedLocation();//注意，在这里实现连跳
+            /*if(button被点击)
+                nextPlayer(moShi);
+             else
+                this.currentPlayer=currentPlayer
+            */
             nextPlayer(moShi);
         }
     }
