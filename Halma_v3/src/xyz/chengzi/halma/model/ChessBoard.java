@@ -170,10 +170,34 @@ public class ChessBoard implements Listenable<GameListener> {
         int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
         int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
         if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
+                return false;
+            }
+        if (Math.abs(rowDistance) <= 1 && Math.abs(colDistance) <= 1)
+            return true;
+        else return isJump(src,dest);
+
+    }
+
+
+
+    public boolean isJump(ChessBoardLocation src, ChessBoardLocation dest){
+        if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
             return false;
         }
-        return Math.abs(rowDistance) <= 1 && Math.abs(colDistance) <= 1;
+        int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
+        int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
+        if (Math.abs(rowDistance)>2||Math.abs(colDistance)>2)
+            return false;
+        int total=Math.abs(rowDistance)+Math.abs(colDistance);
+        if (total == 2 || total == 4){
+            int middleRow=(srcRow+destRow)/2;
+            int middleCol=(srcCol+destCol)/2;
+            ChessBoardLocation middle=new ChessBoardLocation(middleRow,middleCol);
+            return getChessPieceAt(middle) != null;
+        }
+        else return false;
     }
+
 
     @Override
     public void registerListener(GameListener listener) {
