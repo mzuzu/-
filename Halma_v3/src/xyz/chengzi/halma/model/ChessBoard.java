@@ -12,7 +12,7 @@ public class ChessBoard implements Listenable<GameListener> {
     private List<GameListener> listenerList = new ArrayList<>();
     private Square[][] grid;
     private int dimension;
-
+    private Color player;
     private boolean MoShi;
 
     public void setMoShi(boolean moShi) {
@@ -32,6 +32,11 @@ public class ChessBoard implements Listenable<GameListener> {
                 grid[i][j] = new Square(new ChessBoardLocation(i, j));
             }
         }
+    }
+    
+    public void initialSet(int i, int j, Color color){
+        grid[i][j].setPiece(new ChessPiece(color));
+        listenerList.forEach(listener -> listener.onChessBoardReload(this));
     }
 
     public void placeInitialPieces() {
