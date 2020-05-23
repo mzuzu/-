@@ -15,8 +15,25 @@ public class ChessBoard implements Listenable<GameListener> {
     private Color player;
     private boolean MoShi;
 
+    public Square[][] getGrid() {
+        return grid;
+    }
+
     public void setMoShi(boolean moShi) {
         MoShi = moShi;
+    }
+
+    public boolean isMoShi() {
+        return MoShi;
+    }
+
+    public void setPlayer(Color player) {
+        this.player = player;
+    }
+
+    public Color getPlayer() {
+
+        return player;
     }
 
     public ChessBoard(int dimension) {
@@ -182,7 +199,6 @@ public class ChessBoard implements Listenable<GameListener> {
         else return isJump(src,dest);
 
     }
-
 
 
     public boolean isJump(ChessBoardLocation src, ChessBoardLocation dest){
