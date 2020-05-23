@@ -30,6 +30,16 @@ public class GameController implements InputListener {
         model.placeInitialPieces();
     }
     
+    public GameController(ChessBoardComponent chessBoardComponent, ChessBoard chessBoard) {
+        this.view = chessBoardComponent;
+        this.model = chessBoard;
+        this.round = 0;
+
+        view.registerListener(this);
+        model.registerListener(view);
+        setMoShi(model.isMoShi());
+    }
+    
     public Color FirstPlayer(){
         if (moShi){
             int a=(int)(Math.random()*2);
