@@ -208,4 +208,43 @@ public class ChessBoard implements Listenable<GameListener> {
     public void unregisterListener(GameListener listener) {
         listenerList.remove(listener);
     }
+    
+    public void save() {
+        String MOSHI;
+        if (MoShi)
+            MOSHI = "2PLAYER";
+        else MOSHI = "4PLAYER";
+        JFileChooser chooser = new JFileChooser("src/LOAD");
+        chooser.showOpenDialog(null);
+        int option = chooser.showSaveDialog(null);
+        if (option == JFileChooser.APPROVE_OPTION) {    //假如用户选择了保存
+            File file = chooser.getSelectedFile();
+            String fname = chooser.getName(file);    //从文件名输入框中获取文件名
+
+            //假如用户填写的文件名不带我们制定的后缀名，那么我们给它添上后缀
+            if (!fname.contains(".halma")) {
+                file = new File(chooser.getCurrentDirectory(), fname + ".halma");
+                System.out.println("renamed");
+                System.out.println(file.getName());
+            }
+
+            PrintWriter save;
+            try {
+                save = new PrintWriter(file);
+                Square[][] qipan = getGrid();
+                save.println(MOSHI);
+                save.println(getPlayer().getRGB());
+                for (int i = 0; i < getDimension(); i++) {
+                    for (int j = 0; j < getDimension(); j++) {
+                        if (qipan[i][j].getPiece() != null) {
+                            save.println(qipan[i][j].getPiece().getColor().getRGB() + "&" + i + "&" + j);
+                        }
+                    }
+                }
+                save.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
