@@ -4,6 +4,7 @@ import xyz.chengzi.halma.Halma;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class StartMenu extends JFrame {
     public StartMenu() {
@@ -26,7 +27,9 @@ public class StartMenu extends JFrame {
         add(FPlayer);
 
         JButton load = new JButton("Load");
+        load.addActionListener((e) -> {
+            Halma.startLoad();
+        });
         add(load);
-
     }
 }
