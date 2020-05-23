@@ -18,6 +18,14 @@ public class GameController implements InputListener {
     private Color currentPlayer;
     public boolean moShi; //模式 true is two players, false is four players.
 
+    public void setMoShi(boolean moShi) {
+        this.moShi = moShi;
+    }
+    
+    public void setCurrentPlayer(Color currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public GameController(ChessBoardComponent chessBoardComponent, ChessBoard chessBoard, boolean selection) {
         this.moShi = selection;
         chessBoard.setMoShi(selection);
