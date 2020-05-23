@@ -121,4 +121,30 @@ public class GameController implements InputListener {
             component.repaint();
         }
     } 
+    
+    public void load(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        String moshi = scanner.nextLine();
+
+        boolean moSHI;
+        if (moshi.equals("2PLAYER"))
+            moSHI = true;
+        else if (moshi.equals("4PLAYER"))
+            moSHI = false;
+        else moSHI = true;
+        setMoShi(moSHI);
+
+        String color = scanner.nextLine();
+        setCurrentPlayer(new Color(Integer.parseInt(color)));
+
+        while (scanner.hasNextLine()) {
+            String piece = scanner.nextLine();
+            String[] piece1 = piece.split("&");
+            int i = Integer.parseInt(piece1[1]);
+            int j = Integer.parseInt(piece1[2]);
+            Color color1 = new Color(Integer.parseInt(piece1[0]));
+            model.initialSet(i, j, color1);
+        }
+
+    }
 }
