@@ -67,7 +67,7 @@ public class ChessBoardComponent extends JComponent implements Listenable<InputL
     protected void processMouseEvent(MouseEvent e) {
         super.processMouseEvent(e);
 
-        if (e.getID() == MouseEvent.MOUSE_PRESSED) {
+        if (e.getID() == MouseEvent.MOUSE_PRESSED && e.getButton() == MouseEvent.BUTTON1) {
             JComponent clickedComponent = (JComponent) getComponentAt(e.getX(), e.getY());
             ChessBoardLocation location = getLocationByPosition(e.getX(), e.getY());
             for (InputListener listener : listenerList) {
@@ -78,7 +78,13 @@ public class ChessBoardComponent extends JComponent implements Listenable<InputL
                 }
             }
         }
+        if (e.getID() == MouseEvent.MOUSE_PRESSED && e.getButton() == MouseEvent.BUTTON3) {
+            for (InputListener listener : listenerList) {
+                listener.ClickRight();
+            }
+        }
     }
+
 
     @Override
     public void onChessPiecePlace(ChessBoardLocation location, ChessPiece piece) {
