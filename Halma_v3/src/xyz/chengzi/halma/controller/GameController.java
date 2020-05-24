@@ -10,10 +10,10 @@ import xyz.chengzi.halma.view.SquareComponent;
 
 import java.awt.*;
 
-public class GameController implements InputListener {
+public class GameController implements InputListener{
     private ChessBoardComponent view;
     private ChessBoard model;
-
+    private KeyEvent keyEvent;
     private ChessBoardLocation selectedLocation;
     private Color currentPlayer;
     public boolean moShi; //模式 true is two players, false is four players.
@@ -21,7 +21,7 @@ public class GameController implements InputListener {
     public void setMoShi(boolean moShi) {
         this.moShi = moShi;
     }
-    
+
     public void setCurrentPlayer(Color currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -37,32 +37,30 @@ public class GameController implements InputListener {
         model.registerListener(view);
         model.placeInitialPieces();
     }
-    
+
     public GameController(ChessBoardComponent chessBoardComponent, ChessBoard chessBoard) {
         this.view = chessBoardComponent;
         this.model = chessBoard;
-        this.round = 0;
 
         view.registerListener(this);
         model.registerListener(view);
         setMoShi(model.isMoShi());
     }
-    
-    public Color FirstPlayer(){
-        if (moShi){
-            int a=(int)(Math.random()*2);
-            if (a==0)
+
+    public Color FirstPlayer() {
+        if (moShi) {
+            int a = (int) (Math.random() * 2);
+            if (a == 0)
                 return Color.RED;
             else
                 return Color.GREEN;
-        }
-        else {
-            int a=(int)(Math.random()*4);
-            if (a==0)
+        } else {
+            int a = (int) (Math.random() * 4);
+            if (a == 0)
                 return Color.RED;
-            else if (a==1)
+            else if (a == 1)
                 return Color.YELLOW;
-            else if (a==2)
+            else if (a == 2)
                 return Color.GREEN;
             else
                 return Color.BLUE;
@@ -92,8 +90,7 @@ public class GameController implements InputListener {
     public void nextPlayer(boolean MoShi) {
         if (MoShi) {
             currentPlayer = currentPlayer == Color.RED ? Color.GREEN : Color.RED;
-        }
-        else {
+        } else {
             if (currentPlayer == Color.RED) {
                 currentPlayer = Color.YELLOW;
                 return;
@@ -112,6 +109,17 @@ public class GameController implements InputListener {
         }
     }
 
+
+    @Override
+    public void ClickRight() {
+        //if(e.isMetaDown()){//检测鼠标右键单击
+        nextPlayer(moShi);
+        model.setFirstMove(1);
+        // }
+    }
+
+
+
     @Override
     public void onPlayerClickSquare(ChessBoardLocation location, SquareComponent component) {
         if (hasSelectedLocation() && model.isValidMove(getSelectedLocation(), location)) {
@@ -122,7 +130,8 @@ public class GameController implements InputListener {
              else
                 this.currentPlayer=currentPlayer
             */
-            nextPlayer(moShi);
+
+
         }
     }
 
@@ -138,8 +147,8 @@ public class GameController implements InputListener {
             component.setSelected(!component.isSelected());
             component.repaint();
         }
-    } 
-    
+    }
+
     public void load(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         String moshi = scanner.nextLine();
@@ -147,9 +156,7 @@ public class GameController implements InputListener {
         boolean moSHI;
         if (moshi.equals("2PLAYER"))
             moSHI = true;
-        else if (moshi.equals("4PLAYER"))
-            moSHI = false;
-        else moSHI = true;
+        else moSHI = !moshi.equals("4PLAYER");
         setMoShi(moSHI);
 
         String color = scanner.nextLine();
