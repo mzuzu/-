@@ -8,4 +8,6 @@ public interface InputListener extends Listener {
     void onPlayerClickSquare(ChessBoardLocation location, SquareComponent component);
 
     void onPlayerClickChessPiece(ChessBoardLocation location, ChessComponent component);
+    
+    void ClickRight();
 }
