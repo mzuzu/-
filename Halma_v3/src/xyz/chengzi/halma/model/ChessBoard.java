@@ -14,6 +14,16 @@ public class ChessBoard implements Listenable<GameListener> {
     private int dimension;
     private Color player;
     private boolean MoShi;
+    private int FirstMove=1;
+    private ChessBoardLocation src;
+
+    public  int getFirstMove() {
+        return FirstMove;
+    }
+
+    public void setFirstMove(int firstMove) {
+        FirstMove = firstMove;
+    }
 
     public Square[][] getGrid() {
         return grid;
@@ -50,7 +60,7 @@ public class ChessBoard implements Listenable<GameListener> {
             }
         }
     }
-    
+
     public void initialSet(int i, int j, Color color){
         grid[i][j].setPiece(new ChessPiece(color));
         listenerList.forEach(listener -> listener.onChessBoardReload(this));
@@ -175,30 +185,43 @@ public class ChessBoard implements Listenable<GameListener> {
     }
 
     public void moveChessPiece(ChessBoardLocation src, ChessBoardLocation dest) {
-        if (!isValidMove(src, dest)) {
-            throw new IllegalArgumentException("Illegal halma move");
+        if (FirstMove==1){
+            if (!isValidMove(src, dest)) {
+                throw new IllegalArgumentException("Illegal halma move");
+            }
+            this.src=dest;
+            setChessPieceAt(dest, removeChessPieceAt(src));
+            FirstMove--;
         }
-        setChessPieceAt(dest, removeChessPieceAt(src));
+        else {
+            if (!isJump(this.src,dest))
+                throw new IllegalArgumentException("Illegal halma move");
+            setChessPieceAt(dest, removeChessPieceAt(src));
+        }
     }
+
 
     public int getDimension() {
         return dimension;
     }
 
     public boolean isValidMove(ChessBoardLocation src, ChessBoardLocation dest) {
-        if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
-            return false;
-        }
-        int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
-        int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
-        if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
+        if(!isWin()){
+            if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
                 return false;
             }
-        if (Math.abs(rowDistance) <= 1 && Math.abs(colDistance) <= 1)
-            return true;
-        else return isJump(src,dest);
-
+            int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
+            int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
+            if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
+                return false;
+            }
+            if (Math.abs(rowDistance) <= 1 && Math.abs(colDistance) <= 1)
+                return true;
+            else return isJump(src,dest);
+        }
+        else return false;
     }
+
 
 
     public boolean isJump(ChessBoardLocation src, ChessBoardLocation dest){
@@ -207,7 +230,12 @@ public class ChessBoard implements Listenable<GameListener> {
         }
         int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
         int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
+        if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
+            return false;
+        }
         if (Math.abs(rowDistance)>2||Math.abs(colDistance)>2)
+            return false;
+        if (Math.abs(rowDistance)==1&&Math.abs(colDistance)==1)
             return false;
         int total=Math.abs(rowDistance)+Math.abs(colDistance);
         if (total == 2 || total == 4){
@@ -217,6 +245,134 @@ public class ChessBoard implements Listenable<GameListener> {
             return getChessPieceAt(middle) != null;
         }
         else return false;
+    }
+
+    public boolean isWin(){
+        if (MoShi){
+            return isTwoPlayerGreenWin() || isTwoPlayerRedWin();
+        }
+        else
+            return isFourPlayerBlueWin() || isFourPlayerGreenWin() || isFourPlayerRedWin() || isFourPlayerYellowWin();
+    }
+
+    public boolean isTwoPlayerGreenWin(){
+        int k=5;
+        boolean a=true;
+        for (int i=0;i<5;i++){
+            if (i<2)
+                k=5;
+            else
+                k--;
+            for (int j=0;j<k;j++){
+                if (!grid[i][j].getPiece().getColor().equals(Color.GREEN)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
+    }
+
+    public boolean isTwoPlayerRedWin(){
+        int k=5;
+        boolean a=true;
+        for (int i=1;i<6;i++){
+            if (i<3)
+                k=5;
+            else
+                k--;
+            for (int j=1;j<k+1;j++){
+                if (!grid[dimension-i][dimension-j].getPiece().getColor().equals(Color.RED)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
+    }
+
+    public boolean isFourPlayerGreenWin(){
+        int k=4;
+        boolean a=true;
+        for (int i=0;i<4;i++){
+            if (i<2)
+                k=4;
+            else
+                k--;
+            for (int j=0;j<k;j++){
+                if (!grid[i][j].getPiece().getColor().equals(Color.GREEN)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
+    }
+
+    public boolean isFourPlayerRedWin(){
+        int k=4;
+        boolean a=true;
+        for (int i=1;i<5;i++){
+            if (i<3)
+                k=4;
+            else
+                k--;
+            for (int j=1;j<k+1;j++){
+                if (!grid[dimension-i][dimension-j].getPiece().getColor().equals(Color.RED)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
+    }
+
+    public boolean isFourPlayerBlueWin(){
+        int k=4;
+        boolean a=true;
+        for (int i=0;i<4;i++){
+            if (i<2)
+                k=4;
+            else
+                k--;
+            for (int j=1;j<k+1;j++){
+                if (!grid[i][dimension-j].getPiece().getColor().equals(Color.BLUE)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
+    }
+
+    public boolean isFourPlayerYellowWin(){
+        int k=4;
+        boolean a=true;
+        for (int i=1;i<5;i++){
+            if (i<3)
+                k=4;
+            else
+                k--;
+            for (int j=0;j<k;j++){
+                if (!grid[dimension-i][j].getPiece().getColor().equals(Color.RED)){
+                    a=false;
+                    break;
+                }
+            }
+            if (!a)
+                break;
+        }
+        return a;
     }
 
 
@@ -229,7 +385,7 @@ public class ChessBoard implements Listenable<GameListener> {
     public void unregisterListener(GameListener listener) {
         listenerList.remove(listener);
     }
-    
+
     public void save() {
         String MOSHI;
         if (MoShi)
