@@ -107,6 +107,44 @@ public class ChessBoard implements Listenable<GameListener> {
             grid[dimension - 4][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
             grid[dimension - 5][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
             grid[dimension - 5][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+            /*grid[0][0].setPiece(new ChessPiece(Color.GREEN));
+            grid[0][1].setPiece(new ChessPiece(Color.GREEN));
+            grid[0][2].setPiece(new ChessPiece(Color.GREEN));
+            grid[0][3].setPiece(new ChessPiece(Color.GREEN));
+            grid[0][4].setPiece(new ChessPiece(Color.GREEN));
+            grid[1][0].setPiece(new ChessPiece(Color.GREEN));
+            grid[1][1].setPiece(new ChessPiece(Color.GREEN));
+            grid[1][2].setPiece(new ChessPiece(Color.GREEN));
+            grid[1][3].setPiece(new ChessPiece(Color.GREEN));
+            grid[1][4].setPiece(new ChessPiece(Color.GREEN));
+            grid[2][0].setPiece(new ChessPiece(Color.GREEN));
+            grid[2][1].setPiece(new ChessPiece(Color.GREEN));
+            grid[2][2].setPiece(new ChessPiece(Color.GREEN));
+            grid[2][3].setPiece(new ChessPiece(Color.GREEN));
+            grid[3][0].setPiece(new ChessPiece(Color.GREEN));
+            grid[3][1].setPiece(new ChessPiece(Color.GREEN));
+            grid[3][2].setPiece(new ChessPiece(Color.GREEN));
+            grid[4][0].setPiece(new ChessPiece(Color.GREEN));
+            grid[4][1].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 1][dimension - 1].setPiece(new ChessPiece(Color.RED));
+            grid[dimension - 1][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 1][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 1][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 1][dimension - 5].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 2][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 2][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 2][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 2][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 2][dimension - 5].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 3][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 3][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 3][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 3][dimension - 4].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 4][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 4][dimension - 2].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 4][dimension - 3].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 5][dimension - 1].setPiece(new ChessPiece(Color.GREEN));
+            grid[dimension - 5][dimension - 2].setPiece(new ChessPiece(Color.GREEN));*/
         } else {
             grid[0][0].setPiece(new ChessPiece(Color.RED));
             grid[0][1].setPiece(new ChessPiece(Color.RED));
@@ -185,19 +223,19 @@ public class ChessBoard implements Listenable<GameListener> {
     }
 
     public void moveChessPiece(ChessBoardLocation src, ChessBoardLocation dest) {
-        if (FirstMove==1){
-            if (!isValidMove(src, dest)) {
-                throw new IllegalArgumentException("Illegal halma move");
+            if (FirstMove==1){
+                if (!isValidMove(src, dest)) {
+                    throw new IllegalArgumentException("Illegal halma move");
+                }
+                this.src=dest;
+                setChessPieceAt(dest, removeChessPieceAt(src));
+                setFirstMove(0);
             }
-            this.src=dest;
-            setChessPieceAt(dest, removeChessPieceAt(src));
-            FirstMove--;
-        }
-        else {
-            if (!isJump(this.src,dest))
-                throw new IllegalArgumentException("Illegal halma move");
-            setChessPieceAt(dest, removeChessPieceAt(src));
-        }
+            else {
+                if (!isJump(src,dest))
+                    throw new IllegalArgumentException("Illegal halma move");
+                setChessPieceAt(dest, removeChessPieceAt(src));
+            }
     }
 
 
@@ -206,7 +244,7 @@ public class ChessBoard implements Listenable<GameListener> {
     }
 
     public boolean isValidMove(ChessBoardLocation src, ChessBoardLocation dest) {
-        if(!isWin()){
+        if (!isWin()){
             if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
                 return false;
             }
@@ -225,24 +263,27 @@ public class ChessBoard implements Listenable<GameListener> {
 
 
     public boolean isJump(ChessBoardLocation src, ChessBoardLocation dest){
-        if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
-            return false;
-        }
-        int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
-        int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
-        if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
-            return false;
-        }
-        if (Math.abs(rowDistance)>2||Math.abs(colDistance)>2)
-            return false;
-        if (Math.abs(rowDistance)==1&&Math.abs(colDistance)==1)
-            return false;
-        int total=Math.abs(rowDistance)+Math.abs(colDistance);
-        if (total == 2 || total == 4){
-            int middleRow=(srcRow+destRow)/2;
-            int middleCol=(srcCol+destCol)/2;
-            ChessBoardLocation middle=new ChessBoardLocation(middleRow,middleCol);
-            return getChessPieceAt(middle) != null;
+        if (!isWin()){
+            if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
+                return false;
+            }
+            int srcRow = src.getRow(), srcCol = src.getColumn(), destRow = dest.getRow(), destCol = dest.getColumn();
+            int rowDistance = destRow - srcRow, colDistance = destCol - srcCol;
+            if (rowDistance != 0 && colDistance != 0 && Math.abs((double) rowDistance / colDistance) != 1.0) {
+                return false;
+            }
+            if (Math.abs(rowDistance)>2||Math.abs(colDistance)>2)
+                return false;
+            if (Math.abs(rowDistance)==1&&Math.abs(colDistance)==1)
+                return false;
+            int total=Math.abs(rowDistance)+Math.abs(colDistance);
+            if (total == 2 || total == 4){
+                int middleRow=(srcRow+destRow)/2;
+                int middleCol=(srcCol+destCol)/2;
+                ChessBoardLocation middle=new ChessBoardLocation(middleRow,middleCol);
+                return getChessPieceAt(middle) != null;
+            }
+            else return false;
         }
         else return false;
     }
@@ -264,6 +305,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=0;j<k;j++){
+                if (grid[i][j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[i][j].getPiece().getColor().equals(Color.GREEN)){
                     a=false;
                     break;
@@ -284,6 +329,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=1;j<k+1;j++){
+                if (grid[dimension-i][dimension-j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[dimension-i][dimension-j].getPiece().getColor().equals(Color.RED)){
                     a=false;
                     break;
@@ -304,6 +353,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=0;j<k;j++){
+                if (grid[i][j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[i][j].getPiece().getColor().equals(Color.GREEN)){
                     a=false;
                     break;
@@ -324,6 +377,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=1;j<k+1;j++){
+                if (grid[dimension-i][dimension-j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[dimension-i][dimension-j].getPiece().getColor().equals(Color.RED)){
                     a=false;
                     break;
@@ -344,6 +401,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=1;j<k+1;j++){
+                if (grid[i][dimension-j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[i][dimension-j].getPiece().getColor().equals(Color.BLUE)){
                     a=false;
                     break;
@@ -364,6 +425,10 @@ public class ChessBoard implements Listenable<GameListener> {
             else
                 k--;
             for (int j=0;j<k;j++){
+                if (grid[dimension-i][j].getPiece()==null){
+                    a=false;
+                    break;
+                }
                 if (!grid[dimension-i][j].getPiece().getColor().equals(Color.RED)){
                     a=false;
                     break;
