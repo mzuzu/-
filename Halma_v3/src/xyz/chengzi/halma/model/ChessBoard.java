@@ -15,7 +15,7 @@ public class ChessBoard implements Listenable<GameListener> {
     private Color player;
     private boolean MoShi;
     private int FirstMove=1;
-    private ChessBoardLocation src;
+    private ChessBoardLocation src=null;
 
     public  int getFirstMove() {
         return FirstMove;
@@ -227,20 +227,31 @@ public class ChessBoard implements Listenable<GameListener> {
                 if (!isValidMove(src, dest)) {
                     throw new IllegalArgumentException("Illegal halma move");
                 }
-                this.src=dest;
-                setChessPieceAt(dest, removeChessPieceAt(src));
-                setFirstMove(0);
+                else {
+                    getChessPieceAt(src).setOwnStep(1);
+                    setChessPieceAt(dest, removeChessPieceAt(src));
+                    setFirstMove(0);
+                }
             }
             else {
-                if (!isJump(src,dest))
+                if (!isContinueToJump(src,dest))
                     throw new IllegalArgumentException("Illegal halma move");
-                setChessPieceAt(dest, removeChessPieceAt(src));
+                else
+                    setChessPieceAt(dest, removeChessPieceAt(src));
             }
     }
 
 
     public int getDimension() {
         return dimension;
+    }
+
+
+    public boolean isContinueToJump(ChessBoardLocation src, ChessBoardLocation dest){
+        if (isJump(src,dest)){
+            return getChessPieceAt(src).getOwnStep() == 1;
+        }
+        else return false;
     }
 
     public boolean isValidMove(ChessBoardLocation src, ChessBoardLocation dest) {
@@ -290,10 +301,28 @@ public class ChessBoard implements Listenable<GameListener> {
 
     public boolean isWin(){
         if (MoShi){
-            return isTwoPlayerGreenWin() || isTwoPlayerRedWin();
+            if(isTwoPlayerGreenWin() || isTwoPlayerRedWin()){
+                if (isTwoPlayerGreenWin())
+                    JOptionPane.showMessageDialog(null,"The Green Player Win!");
+                else
+                    JOptionPane.showMessageDialog(null,"The Red Player Win!");
+                return true;
+            }
+            else return false;
         }
         else
-            return isFourPlayerBlueWin() || isFourPlayerGreenWin() || isFourPlayerRedWin() || isFourPlayerYellowWin();
+           if (isFourPlayerBlueWin() || isFourPlayerGreenWin() || isFourPlayerRedWin() || isFourPlayerYellowWin()){
+               if (isFourPlayerBlueWin())
+                   JOptionPane.showMessageDialog(null,"The Blue Player Win!");
+               else if (isFourPlayerGreenWin())
+                   JOptionPane.showMessageDialog(null,"The Green Player Win!");
+               else if (isFourPlayerRedWin())
+                   JOptionPane.showMessageDialog(null,"The Red Player Win!");
+               else
+                   JOptionPane.showMessageDialog(null,"The Yellow Player Win!");
+               return true;
+           }
+           else return false;
     }
 
     public boolean isTwoPlayerGreenWin(){
